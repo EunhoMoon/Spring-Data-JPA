@@ -213,4 +213,24 @@ class MemberRepositoryTest {
         assertThat(page.hasNext()).isTrue();
     }
 
+
+    @Test
+    public void bulkUpdate() {
+        // given
+        memberRepository.save(new Member("member1", 10, null));
+        memberRepository.save(new Member("member2", 19, null));
+        memberRepository.save(new Member("member3", 20, null));
+        memberRepository.save(new Member("member4", 21, null));
+        memberRepository.save(new Member("member5", 40, null));
+
+        // when
+        int resultCount = memberRepository.bulkAgePlus(20);
+
+        Member member5 = memberRepository.findMemberByUsername("member5");
+        System.out.println("member5 = " + member5);
+
+        // then
+        assertThat(resultCount).isEqualTo(3);
+    }
+
 }
