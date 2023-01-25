@@ -11,7 +11,7 @@ import java.util.List;
 @Entity
 @ToString(of = {"id", "name"})
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Team {
+public class Team extends BaseEntity {
 
     @Id
     @GeneratedValue
