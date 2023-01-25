@@ -309,4 +309,65 @@ class MemberRepositoryTest {
         System.out.println("findMember.getLastModifiedDate() = " + findMember.getLastModifiedDate());
     }
 
+    @Test
+    void projections() {
+        Team team = new Team("teamA");
+        teamRepository.save(team);
+
+        Member member1 = new Member("member1", 10, team);
+        Member member2 = new Member("member2", 20, team);
+        memberRepository.save(member1);
+        memberRepository.save(member2);
+
+        em.flush();
+        em.clear();
+
+        List<UsernameOnly> result = memberRepository.findProjectionsByUsername("member1");
+        for (UsernameOnly usernameOnly : result) {
+            System.out.println("usernameOnly.getUsername() = " + usernameOnly.getUsername());
+        }
+
+    }
+
+    @Test
+    void projections2() {
+        Team team = new Team("teamA");
+        teamRepository.save(team);
+
+        Member member1 = new Member("member1", 10, team);
+        Member member2 = new Member("member2", 20, team);
+        memberRepository.save(member1);
+        memberRepository.save(member2);
+
+        em.flush();
+        em.clear();
+
+        List<UsernameOnlyDto> findUser = memberRepository.findConcreteProjectionsByUsername("member1", UsernameOnlyDto.class);
+        for (UsernameOnlyDto usernameOnlyDto : findUser) {
+            System.out.println("usernameOnlyDto.getUsername() = " + usernameOnlyDto.getUsername());
+        }
+
+    }
+
+    @Test
+    void projections3() {
+        Team team = new Team("teamA");
+        teamRepository.save(team);
+
+        Member member1 = new Member("member1", 10, team);
+        Member member2 = new Member("member2", 20, team);
+        memberRepository.save(member1);
+        memberRepository.save(member2);
+
+        em.flush();
+        em.clear();
+
+        List<NestedClosedProjection> findUser = memberRepository.findConcreteProjectionsByUsername("member1", NestedClosedProjection.class);
+        for (NestedClosedProjection nestedClosedProjection : findUser) {
+            System.out.println("nestedClosedProjection.getUsername() = " + nestedClosedProjection.getUsername());
+            System.out.println("nestedClosedProjection.getTeam() = " + nestedClosedProjection.getTeam());
+        }
+
+    }
+
 }
