@@ -257,4 +257,29 @@ class MemberRepositoryTest {
 
     }
 
+    @Test
+    void queryHint() {
+        // given
+        Member member = memberRepository.save(new Member("member", 10, null));
+        em.flush();
+        em.clear();
+
+        // expect
+        Member findMember = memberRepository.findReadOnlyByUsername(member.getUsername());
+        findMember.setUsername("member2");
+
+        em.flush(); // 업데이트 안나감
+    }
+
+    @Test
+    void lock() {
+        // given
+        Member member = memberRepository.save(new Member("member", 10, null));
+        em.flush();
+        em.clear();
+
+        // expect
+        List<Member> result = memberRepository.findLockByUsername(member.getUsername());
+    }
+
 }
