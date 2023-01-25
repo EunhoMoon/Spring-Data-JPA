@@ -20,7 +20,7 @@ public class DataJpaApplication {
 
     @Bean
     public AuditorAware<String> auditorProvider() {
-        return () -> Optional.of(UUID.randomUUID().toString());
+        return () -> Optional.of(UUID.randomUUID().toString().substring(0, 8));
     }
 
 }
